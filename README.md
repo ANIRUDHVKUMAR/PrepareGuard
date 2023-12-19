@@ -1,16 +1,29 @@
-# pg
+# PrepareGuard
 
-A new Flutter project.
+PrepareGuard is a disaster preparedness mobile application that empowers users with real-time alerts and information about nearby safety camps during emergencies.
 
-## Getting Started
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
 
-This project is a starting point for a Flutter application.
+## Introduction
 
-A few resources to get you started if this is your first Flutter project:
+PrepareGuard is designed to provide quick and critical information to users during disasters. It ensures rapid disaster awareness through swift alerts, enabling users to take prompt action and facilitating quick responses.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Real-Time Alerts:** Receive immediate notifications about various disasters.
+- **Safety Camps Locator:** Find nearby safety camps on the map.
+- **User-Friendly Interface:** Intuitive design for easy navigation.
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/prepareguard.git
