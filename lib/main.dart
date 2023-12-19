@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'warning_system.dart';
 import 'relief_camps_map.dart';
-import 'my_widget.dart';
 
 void main() {
   runApp(MyApp());
