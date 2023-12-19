@@ -51,4 +51,4 @@ Feel free to tailor the wording or provide more details based on the specific fu
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/prepareguard.git
+   [git clone https://github.com/ANIRUDHVKUMAR/PrepareGuard]
