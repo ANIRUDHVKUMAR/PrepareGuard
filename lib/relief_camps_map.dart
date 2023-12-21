@@ -1,5 +1,3 @@
-// lib/relief_camps_map.dart
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -12,7 +10,7 @@ class _ReliefCampsMapState extends State<ReliefCampsMap> {
   GoogleMapController? mapController;
 
   final LatLng reliefCampLocation =
-      LatLng(37.7749, -122.4194); // Replace with actual relief camp location
+      LatLng(37.7749, -122.4194); 
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +26,13 @@ class _ReliefCampsMapState extends State<ReliefCampsMap> {
           target: reliefCampLocation,
           zoom: 12.0,
         ),
-        markers: {
+        markers: Set<Marker>.of([
           Marker(
             markerId: MarkerId('reliefCamp'),
             position: reliefCampLocation,
             infoWindow: InfoWindow(title: 'Relief Camp'),
           ),
-        },
+        ]),
       ),
     );
   }
