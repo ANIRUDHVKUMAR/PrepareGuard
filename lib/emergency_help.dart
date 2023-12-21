@@ -1,42 +1,136 @@
-// lib/relief_camps_map.dart
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class ReliefCampsMap extends StatefulWidget {
-  @override
-  _ReliefCampsMapState createState() => _ReliefCampsMapState();
-}
+class EmergencyHelp extends StatelessWidget {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
-class _ReliefCampsMapState extends State<ReliefCampsMap> {
-  GoogleMapController? mapController;
+  // Ensure proper initialization of the notification plugin
+  EmergencyHelp() {
+    initializeNotifications();
+  }
 
-  final LatLng reliefCampLocation =
-      LatLng(37.7749, -122.4194); // Replace with actual relief camp location
+  Future<void> initializeNotifications() async {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+
+    final InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Relief Camps Map'),
+        title: Text('Emergency Help Request'),
       ),
-      body: GoogleMap(
-        onMapCreated: (GoogleMapController controller) {
-          mapController = controller;
-        },
-        initialCameraPosition: CameraPosition(
-          target: reliefCampLocation,
-          zoom: 12.0,
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            sendEmergencyHelpRequest();
+            openChatScreen(context);
+          },
+          child: Text('Request Emergency Help'),
         ),
-        markers: Set<Marker>.of([
-          Marker(
-            markerId: MarkerId('reliefCamp'),
-            position: reliefCampLocation,
-            infoWindow: InfoWindow(title: 'Relief Camp'),
-          ),
-          // Add more markers if needed
-        ]),
       ),
     );
+  }
+
+  Future<void> sendEmergencyHelpRequest() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'Emergency Channel',
+      'Channel fo emergency notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+      showWhen: false,
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Emergency Help Request',
+      'Emergency help requested. Please check the app for details.',
+      platformChannelSpecifics,
+      payload: 'emergency_request',
+    );
+  }
+
+  void openChatScreen(BuildContext context) {
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ChatScreen()),
+    );
+  }
+}
+
+class ChatScreen extends StatefulWidget {
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  TextEditingController _messageController = TextEditingController();
+  List<String> _messages = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Chat'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_messages[index]),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _messageController,
+                    decoration: InputDecoration(
+                      hintText: 'Type a message...',
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () {
+                    sendMessage();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void sendMessage() {
+    String message = _messageController.text;
+    if (message.isNotEmpty) {
+      setState(() {
+        _messages.add(message);
+        _messageController.clear();
+      });
+    }
   }
 }
