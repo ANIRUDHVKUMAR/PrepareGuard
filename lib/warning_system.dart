@@ -1,8 +1,13 @@
-// lib/warning_system.dart
-
 import 'package:flutter/material.dart';
 
-class WarningSystem extends StatelessWidget {
+class WarningSystem extends StatefulWidget {
+  @override
+  _WarningSystemState createState() => _WarningSystemState();
+}
+
+class _WarningSystemState extends State<WarningSystem> {
+  TextEditingController _messageController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,29 +15,60 @@ class WarningSystem extends StatelessWidget {
         title: Text('Warning System'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Add code to trigger a warning/alert
-            // You can use notifications or any other method as needed
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text('Warning Alert'),
-                  content: Text('Water level is rising steeply. Be ALERT!!!'),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('OK'),
-                    ),
-                  ],
-                );
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _messageController,
+              decoration: InputDecoration(
+                hintText: 'Enter warning message',
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                String warningMessage = _messageController.text;
+                if (warningMessage.isNotEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Warning Alert'),
+                        content: Text(warningMessage),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Error'),
+                        content: Text('Please enter a warning message.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               },
-            );
-          },
-          child: Text('Trigger Warning'),
+              child: Text('Trigger Warning'),
+            ),
+          ],
         ),
       ),
     );
